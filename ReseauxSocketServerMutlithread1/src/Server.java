@@ -17,6 +17,7 @@ public class Server
 	public static void main(String[] args) throws IOException 
 	{ 
 		
+		// Number of clients connected
 		Integer NbClientConnected = 0 ; 
 
 		// server is listening on port 5056 
@@ -30,11 +31,15 @@ public class Server
 			
 			try
 			{ 
+				System.out.println("wait for new connection:...");
 				// socket object to receive incoming client requests 
+				// wait inaccept socket form new client
 				s = ss.accept(); 
+				
+				// count number of clients
 				++NbClientConnected ; 
 				
-				System.out.println("A new client is connected : " + s); 
+				System.out.println("A new client is connected. Client number: " + NbClientConnected + " "+ s ); 
 				
 				// obtaining input and out streams 
 				DataInputStream dis = new DataInputStream(s.getInputStream()); 
@@ -43,7 +48,7 @@ public class Server
 				System.out.println("Assigning new thread for this client"); 
 
 				// create a new thread object 
-				Thread t = new ClientHandler(s, dis, dos,NbClientConnected); 
+				Thread t = new ClientHandler(s, dis, dos, NbClientConnected); 
 
 				// Invoking the start() method 
 				t.start(); 
@@ -87,7 +92,7 @@ class ClientHandler extends Thread
 		{ 
 			try { 
 
-				System.out.println("Client number: "+NbClientConnected);
+				 System.out.println("Client number: "+NbClientConnected);
 				// Ask user what he wants 
 				dos.writeUTF("What do you want?[Date | Time]..\n"+ 
 							"Type Exit to terminate connection."); 
